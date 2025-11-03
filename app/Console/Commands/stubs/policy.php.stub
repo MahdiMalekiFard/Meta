@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Policies;
+
+use App\Enums\PermissionsEnum;
+use App\Models\{{model}};
+use App\Models\User;
+
+class {{model}}Policy
+{
+    /**
+     * Determine whether the user can view any models.
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::{{umodel}}_ALL->value, PermissionsEnum::{{umodel}}_INDEX->value);
+
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, {{model}} ${{cmodel}}): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::{{umodel}}_ALL->value, PermissionsEnum::{{umodel}}_SHOW->value);
+
+    }
+
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::{{umodel}}_ALL->value, PermissionsEnum::{{umodel}}_STORE->value);
+
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(User $user, {{model}} ${{cmodel}}): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::{{umodel}}_ALL->value, PermissionsEnum::{{umodel}}_UPDATE->value) || $user->id === ${{cmodel}}->id;
+
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, {{model}} ${{cmodel}}): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::{{umodel}}_ALL->value, PermissionsEnum::{{umodel}}_DELETE->value);
+
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, {{model}} ${{cmodel}}): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::{{umodel}}_RESTORE->value, PermissionsEnum::ADMIN->value);
+
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, {{model}} ${{cmodel}}): bool
+    {
+        return $user->hasAnyPermission(PermissionsEnum::ADMIN->value,PermissionsEnum::ADMIN->value);
+
+    }
+}

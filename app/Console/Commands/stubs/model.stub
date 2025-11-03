@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *     title="{{model}}",
+ *     description="{{model}} model",
+ *     @OA\Xml(name="{{model}}"),
+ *     @OA\Property(property="id",title="ID",description="ID",format="int64",type="integer",example=1),
+ * )
+ */
+class {{model}} extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+    ];
+
+    protected $casts = [];
+}

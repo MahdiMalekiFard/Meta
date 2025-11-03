@@ -1,0 +1,42 @@
+<x-admin.layout.master
+    :stack="[trans('general.page.index.title',['model'=>trans('faq.model')])=>route('admin.faq.index')]"
+    :title="trans('general.page.edit.page_title',['model'=>trans('faq.model')])">
+    <x-admin.widget.form-card
+        :title="trans('general.page.edit.title',['model'=>trans('faq.model'),'name'=>$user->name])"
+        :action="route('admin.faq.update',$faq->id)"
+        method="PATCH">
+
+        <x-admin.element.input
+            parent-class="col-md-12"
+            :label="trans('validation.attributes.question')"
+            name="title"
+            required="1"
+            :value="$faq->title"
+        />
+        <x-admin.element.text-area
+            parent-class="col-md-12"
+            :label="trans('validation.attributes.answer')"
+            name="description"
+            required="1"
+            :value="$faq->description"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.part')"
+            name="part"
+            required="1"
+            :value="$faq->part"
+        />
+        <x-admin.element.switch
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.published')"
+            name="published"
+            required="0"
+            :value="$faq->published"
+        />
+
+        @slot('footer')
+            <x-admin.widget.form-sumbit :back-route="route('admin.faq.index')"/>
+        @endslot
+    </x-admin.widget.form-card>
+</x-admin.layout.master>

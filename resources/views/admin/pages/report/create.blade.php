@@ -1,0 +1,43 @@
+<x-admin.layout.master
+    :stack="[trans('general.page.index.title',['model'=>trans('report.model')])=>route('admin.report.index')]"
+    :title="trans('general.page.create.page_title',['model'=>trans('report.model')])">
+    <x-admin.widget.form-card
+        :title="trans('general.page.create.title',['model'=>trans('report.model')])"
+        :action="route('admin.report.store')">
+
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.user_id')"
+            name="user_id"
+            required="1"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.report_reason_id')"
+            name="report_reason_id"
+            required="1"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.reportable_id')"
+            name="reportable_id"
+            required="1"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.reportable_type')"
+            name="reportable_type"
+            required="1"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.message')"
+            name="message"
+            required="1"
+        />
+
+        @slot('footer')
+            <x-admin.widget.form-sumbit :back-route="route('admin.report.index')"/>
+        @endslot
+    </x-admin.widget.form-card>
+</x-admin.layout.master>

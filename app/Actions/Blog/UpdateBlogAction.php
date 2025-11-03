@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Actions\Blog;
+
+use App\Actions\Translation\SyncTranslationAction;
+use App\Models\Blog;
+use App\Repositories\Blog\BlogRepositoryInterface;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+
+class UpdateBlogAction
+{
+    use AsAction;
+    
+    public function __construct(private readonly BlogRepositoryInterface $repository)
+    {
+    }
+    
+    /**
+     * @param Blog                                          $blog
+     * @param array{name:string,mobile:string,email:string} $payload
+     *
+     * @return Blog
+     */
+    public function handle(Blog $blog, array $payload): Blog
+    {
+        return DB::transaction(function () use ($blog, $payload) {
+            $blog->update($payload);
+            SyncTranslationAction::run($blog);
+            $blog->categories()->sync(Arr::get($payload, 'categories_id', []));
+            $blog->tags()->sync(Arr::get($payload, 'tags_id', []));
+            if (request()?->hasFile('image')) {
+                $blog->addMediaFromRequest('image')->toMediaCollection('image');
+            }
+            
+            return $blog;
+        });
+    }
+}

@@ -1,0 +1,62 @@
+<x-admin.layout.master
+    :stack="[trans('general.page.index.title',['model'=>trans('banner.model')])=>route('admin.banner.index')]"
+    :title="trans('general.page.create.page_title',['model'=>trans('banner.model')])">
+    <x-admin.widget.form-card
+        :title="trans('general.page.create.title',['model'=>trans('banner.model')])"
+        :action="route('admin.banner.store')">
+
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.title')"
+            name="title"
+            required="1"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.link')"
+            name="link"
+            required="0"
+        />
+
+        <x-admin.element.text-area
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.description')"
+            name="description"
+            required="1"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.button')"
+            name="button"
+            required="0"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.gravity')"
+            name="gravity"
+            required="0"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.limit')"
+            name="limit"
+            required="0"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.published')"
+            name="published"
+            required="0"
+        />
+        <x-admin.element.datepicker
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.expire_at')"
+            name="expire_at"
+            required="0"
+        />
+
+        @slot('footer')
+            <x-admin.widget.form-sumbit :back-route="route('admin.banner.index')"/>
+        @endslot
+    </x-admin.widget.form-card>
+</x-admin.layout.master>

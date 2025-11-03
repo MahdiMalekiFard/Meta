@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+>
+    <title>phpDocumentor</title>
+    <paths>
+        <output>docs/website</output>
+    </paths>
+    <version number="3.0.0">
+        <api format="php">
+            <source dsn=".">
+                <path>app</path>
+                <path>config</path>
+                <path>database</path>
+                <path>routes</path>
+            </source>
+            <ignore hidden="true" symlinks="true">
+                <!--1 or more repetitions:-->
+                <path>app/Helpers/**/*</path>
+                <path>app/Filters/**/*</path>
+                <path>app/Lib/**/*</path>
+                <path>app/Livewire/**/*</path>
+                <path>app/Mail/**/*</path>
+                <path>app/Providers/**/*</path>
+                <path>app/Sort/**/*</path>
+                <path>app/Traits/**/*</path>
+                <path>app/View/**/*</path>
+                <path>app/Yajra/**/*</path>
+                <path>Vendor/**/*</path>
+            </ignore>
+            <extensions>
+                <!--1 or more repetitions:-->
+                <extension>php</extension>
+            </extensions>
+            <include-source>true</include-source>
+        </api>
+    </version>
+</phpdocumentor>

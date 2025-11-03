@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Resources;
+
+use App\Models\{{model}};
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *     title="{{model}}Resource",
+ *     description="{{model}} resource",
+ *     @OA\Xml(name="{{model}}Resource"),
+ *     @OA\Property(property="id", type="integer", description="ID", example="1"),
+ * )
+ */
+class {{model}}Resource extends JsonResource
+{
+
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'=>$this->id,
+        ];
+    }
+}

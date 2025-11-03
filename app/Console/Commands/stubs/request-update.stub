@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *      title="Update {{model}} request",
+ *      description="Update {{model}} request body data",
+ *      type="object",
+ *      required={"name"},
+ *      @OA\Xml(name="Update{{model}}Request"),
+ *      @OA\Property(property="name", type="string",description="", example="John"),
+ * )
+ */
+class Update{{model}}Request extends FormRequest
+{
+
+    public function rules(): array
+    {
+        $rules = (new Store{{model}}Request())->rules();
+        return array_merge($rules, [
+
+        ]);
+    }
+}

@@ -1,0 +1,43 @@
+@php use App\Enums\EstatePurposeEnum; @endphp
+<div class="row">
+    <x-admin.element.select
+        parent-class="col-md-6"
+        :label="trans('validation.attributes.purpose')"
+        name="purpose"
+        required="1"
+        wire:model.live="purpose"
+        :value="$purpose"
+        :options="[
+                        EstatePurposeEnum::RENT->value=>EstatePurposeEnum::RENT->title(),
+                        EstatePurposeEnum::SALE->value=>EstatePurposeEnum::SALE->title(),
+                    ]"
+    />
+
+    @if($purpose==EstatePurposeEnum::SALE->value)
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.price')"
+            name="price"
+            required="1"
+            type="price"
+            :value="$price"
+        />
+    @else
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.rent')"
+            name="rent"
+            required="1"
+            type="price"
+            :value="$rent"
+        />
+        <x-admin.element.input
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.mortgage')"
+            name="mortgage"
+            required="1"
+            type="price"
+            :value="$mortgage"
+        />
+    @endif
+</div>
