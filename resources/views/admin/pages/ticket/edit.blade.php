@@ -1,4 +1,4 @@
-@php use App\Enums\TicketDepartmentEnum;use App\Enums\TicketPriorityEnum;use App\Enums\TicketStatusEnum; @endphp
+@php use App\Enums\TicketDepartmentEnum;use App\Enums\TicketPriorityEnum;use App\Enums\TicketStatusEnum;use App\Enums\TicketActionTypeEnum@endphp
 <x-admin.layout.master
     :stack="[trans('general.page.index.title',['model'=>trans('ticket.model')])=>route('admin.ticket.index')]"
     :title="trans('general.page.edit.page_title',['model'=>trans('ticket.model')])">
@@ -38,6 +38,15 @@
             required="1"
             :options="TicketPriorityEnum::selectData()"
             :value="$ticket->priority->value"
+        />
+
+        <x-admin.element.select
+            parent-class="col-md-6"
+            :label="trans('validation.attributes.action_type')"
+            name="action_type"
+            required="1"
+            :options="TicketActionTypeEnum::selectData()"
+            :value="$ticket->action_type->value"
         />
 
         @slot('footer')

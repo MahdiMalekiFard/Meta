@@ -53,8 +53,9 @@ class StoreTicketRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'subject'     => __('ticket.subject'),
-            'action_type' => __('ticket.action_type'),
+            'subject'       => __('ticket.subject'),
+            'action_type'   => __('ticket.action_type'),
+            'complete_name' => __('ticket.complete_name'),
         ];
     }
 }

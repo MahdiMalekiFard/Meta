@@ -11,6 +11,7 @@ return [
     'high'          => 'بالا',
     'subject'       => 'موضوع',
     'action_type'   => 'نوع فعالیت',
+    'complete_name' => 'نام و نام خانوادگی',
     'message'       => 'پیام',
     'status'        => 'وضعیت',
     'comment'       => 'نظر',

@@ -11,6 +11,7 @@ return [
     'high'          => 'High',
     'subject'       => 'Subject',
     'action_type'   => 'Action Type',
+    'complete_name' => 'Name',
     'message'       => 'Message',
     'status'        => 'Status',
     'comment'       => 'Comment',

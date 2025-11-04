@@ -296,6 +296,7 @@ return [
         'subject'                => 'Subject',
         'department'             => 'Department',
         'priority'               => 'Priority',
+        'action_type'            => 'Type of Activity',
         'user_id'                => 'User',
         'published'              => 'Published',
         'tags_id'                => 'Tags',
