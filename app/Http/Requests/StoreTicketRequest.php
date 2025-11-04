@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TicketActionTypeEnum;
 use App\Enums\TicketDepartmentEnum;
 use App\Enums\TicketPriorityEnum;
 use App\Enums\TicketStatusEnum;
@@ -33,16 +34,16 @@ class StoreTicketRequest extends FormRequest
     {
         $rules = [
             'media'       => 'sometimes|max:2048',
-            'subject'     => 'required',
+            'subject'     => 'nullable|max:255',
             'description' => 'required',
             'department'  => ['required', 'string', Rule::in(TicketDepartmentEnum::values())],
             'status'      => ['nullable', 'string', Rule::in(TicketStatusEnum::values())],
             'priority'    => ['required', 'string', Rule::in(TicketPriorityEnum::values())],
+            'action_type' => ['required', 'string', Rule::in(TicketActionTypeEnum::values())],
         ];
         
         if (!auth('sanctum')->check()) {
-            $rules['name'] = 'required|string|max:255';
-            $rules['family'] = 'required|string|max:255';
+            $rules['complete_name'] = 'required|string|max:255';
             $rules['mobile'] = 'required|string|max:255|regex:/^09[0-9]{9}$/';
         }
         
@@ -52,7 +53,8 @@ class StoreTicketRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'subject' => __('ticket.subject'),
+            'subject'     => __('ticket.subject'),
+            'action_type' => __('ticket.action_type'),
         ];
     }
 }

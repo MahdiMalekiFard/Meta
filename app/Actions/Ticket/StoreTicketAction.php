@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Throwable;
 
 class StoreTicketAction
 {
@@ -28,24 +29,40 @@ class StoreTicketAction
     {
     }
     
+    /**
+     * @throws Throwable
+     */
     public function handle(array $payload): Ticket
     {
         return DB::transaction(function () use ($payload) {
             if (auth('sanctum')->check()) {
                 $payload['user_id'] = auth('sanctum')->id();
             } else {
-                $user = $this->userRepository->firstOrCreate([
-                    'mobile' => Arr::get($payload, 'mobile'),
-                ], [
-                    'name'   => Arr::get($payload, 'name'),
-                    'family' => Arr::get($payload, 'family'),
-                ]);
+                $completeName = trim(Arr::get($payload, 'complete_name', ''));
+                
+                // Split the name by space
+                $parts = preg_split('/\s+/', $completeName, 2);
+                
+                $firstName = $parts[0] ?? null;
+                $familyName = $parts[1] ?? null;
+                
+                $user = $this->userRepository->firstOrCreate(
+                    ['mobile' => Arr::get($payload, 'mobile')],
+                    [
+                        'name'   => $firstName,
+                        'family' => $familyName,
+                    ]
+                );
+                
                 $payload['user_id'] = $user->id;
                 Auth::login($user);
             }
+            
+            $payload['subject'] = Arr::get($payload, 'subject') ?? '';
+            
             /** @var Ticket $model */
             $model = $this->repository->store($payload);
-            $this->storeMessageAction->handle($model,[
+            $this->storeMessageAction->handle($model, [
                 'user_id'   => $payload['user_id'],
                 'ticket_id' => $model->id,
                 'message'   => $payload['description'],
@@ -53,7 +70,7 @@ class StoreTicketAction
             
             StoreTicketEvent::dispatch($model, ['new_user' => !auth()->check()]);
             
-            return $model->fresh()?->load('lastMessage','lastMessage.media', 'user');
+            return $model->fresh()?->load('lastMessage', 'lastMessage.media', 'user');
             
         });
     }

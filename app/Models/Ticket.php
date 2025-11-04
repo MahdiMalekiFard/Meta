@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TicketActionTypeEnum;
 use App\Enums\TicketDepartmentEnum;
 use App\Enums\TicketPriorityEnum;
 use App\Enums\TicketStatusEnum;
@@ -54,11 +55,13 @@ class Ticket extends Model
         'closed_by',
         'status',
         'priority',
+        'action_type',
     ];
     protected $casts    = [
         'status'     => TicketStatusEnum::class,
         'department' => TicketDepartmentEnum::class,
         'priority'   => TicketPriorityEnum::class,
+        'action_type' => TicketActionTypeEnum::class,
     ];
     
     public static function boot(): void
