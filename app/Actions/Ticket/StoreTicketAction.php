@@ -9,6 +9,8 @@ use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Ticket\TicketRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\File\FileService;
+use App\Services\Notify\DTO\Message;
+use App\Services\Notify\Notifier;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +26,8 @@ class StoreTicketAction
         private readonly MessageRepositoryInterface $messageRepository,
         private readonly StoreMessageAction $storeMessageAction,
         private readonly UserRepositoryInterface $userRepository,
-        private readonly FileService $fileService
+        private readonly FileService $fileService,
+        private readonly Notifier $notifier
     )
     {
     }
@@ -67,6 +70,23 @@ class StoreTicketAction
                 'ticket_id' => $model->id,
                 'message'   => $payload['description'],
             ]);
+            
+            // SMS to admins (template: contact_admin_sms)
+            $admins = collect(explode(',', (string)config('notify.sms.contact_sms_recipients')))
+                ->map(fn($x) => trim($x))->filter();
+            
+            foreach ($admins as $to) {
+                $this->notifier->send(
+                    new Message(
+                        templateKey: 'contact_admin_sms',
+                        to: $to,
+                        data: [
+                            'token'   => (string)($model?->user?->mobile ?? ''),
+                            'token10' => $model?->user?->full_name,
+                        ],
+                    )
+                );
+            }
             
             StoreTicketEvent::dispatch($model, ['new_user' => !auth()->check()]);
             

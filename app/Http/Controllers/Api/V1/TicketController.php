@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\TicketActionTypeEnum;
 use App\Enums\TicketDepartmentEnum;
 use App\Enums\TicketPriorityEnum;
 use App\Enums\TicketStatusEnum;
@@ -22,7 +23,7 @@ class TicketController extends BaseApiController
     
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['store']);
+        $this->middleware('auth:sanctum')->except(['store', 'data']);
 //        $this->authorizeResource(Ticket::class);
     }
     
@@ -155,9 +156,10 @@ class TicketController extends BaseApiController
     {
         return Response::data(
             [
-                'departments' => TicketDepartmentEnum::toArray(),
-                'priorities'  => TicketPriorityEnum::toArray(),
-                'statuses'    => TicketStatusEnum::toArray(),
+                'departments'  => TicketDepartmentEnum::toArray(),
+                'priorities'   => TicketPriorityEnum::toArray(),
+                'statuses'     => TicketStatusEnum::toArray(),
+                'action_types' => TicketActionTypeEnum::list(),
             ],
         );
     }

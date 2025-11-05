@@ -9,25 +9,25 @@ trait EnumToArray
     public static function __callStatic(string $name, array $arguments)
     {
         $array = self::arrayValues();
-
+        
         return $array[$name] ?? null;
     }
-
+    
     public static function names(): array
     {
         return array_column(self::cases(), 'name');
     }
-
+    
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
     }
-
+    
     public static function array(): array
     {
         return array_combine(self::values(), self::names());
     }
-
+    
     public static function arrayValues(): array
     {
         return array_combine(self::names(), self::values());
@@ -40,6 +40,18 @@ trait EnumToArray
             $result[$case->value] = $case->title();
         }
         return $result;
+    }
+    
+    public static function list(): array
+    {
+        $data = [];
+        foreach (self::cases() as $case) {
+            $data[] = [
+                'label' => $case->title(),
+                'value' => $case->value,
+            ];
+        }
+        return $data;
     }
     
 }
